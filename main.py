@@ -1,6 +1,6 @@
 import os
 
-import httpx
+from dotenv import load_dotenv
 from fastapi import FastAPI
 from remnawave import RemnawaveSDK
 from remnawave.models.users import (
@@ -8,12 +8,13 @@ from remnawave.models.users import (
     UpdateUserRequestDto,
 )
 
+load_dotenv()
+
 app = FastAPI()
-client = httpx.AsyncClient(
-    base_url=httpx.URL(os.getenv("REMNAWAVE_BASE_URL") or ""),
-    headers={"Authorization": f"Bearer {os.getenv('REMNAWAVE_TOKEN')}"},
+remnawave = RemnawaveSDK(
+    base_url=os.getenv("REMNAWAVE_BASE_URL"),
+    token=os.getenv("REMNAWAVE_TOKEN"),
 )
-remnawave = RemnawaveSDK(client=client)
 
 
 @app.get("/user/{user_id}")

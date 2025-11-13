@@ -9,8 +9,11 @@ from remnawave.models.users import (
 )
 
 app = FastAPI()
-client = httpx.AsyncClient(base_url=os.getenv("REMNAWAVE_BASE_URL"))
-remnawave = RemnawaveSDK(client=client, token=os.getenv("REMNAWAVE_TOKEN"))
+client = httpx.AsyncClient(
+    base_url=os.getenv("REMNAWAVE_BASE_URL"),
+    headers={"Authorization": f"Bearer {os.getenv('REMNAWAVE_TOKEN')}"},
+)
+remnawave = RemnawaveSDK(client=client)
 
 
 @app.get("/user/{user_id}")

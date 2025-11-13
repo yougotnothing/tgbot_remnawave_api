@@ -1,5 +1,6 @@
 import os
 
+import httpx
 from fastapi import FastAPI
 from remnawave import RemnawaveSDK
 from remnawave.models.users import (
@@ -7,6 +8,9 @@ from remnawave.models.users import (
     UpdateUserRequestDto,
 )
 
+client = httpx.AsyncClient(
+    base_url="https://dns-0dm3nd4un.admednka.litvinsportik228.online"
+)
 base_url = os.getenv("REMNAWAVE_BASE_URL")
 token = os.getenv("REMNAWAVE_TOKEN")
 

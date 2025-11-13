@@ -8,14 +8,9 @@ from remnawave.models.users import (
     UpdateUserRequestDto,
 )
 
-client = httpx.AsyncClient(
-    base_url="https://dns-0dm3nd4un.admednka.litvinsportik228.online"
-)
-base_url = os.getenv("REMNAWAVE_BASE_URL")
-token = os.getenv("REMNAWAVE_TOKEN")
-
 app = FastAPI()
-remnawave = RemnawaveSDK(client=client, token=token)
+client = httpx.AsyncClient(base_url=os.getenv("REMNAWAVE_BASE_URL"))
+remnawave = RemnawaveSDK(client=client, token=os.getenv("REMNAWAVE_TOKEN"))
 
 
 @app.get("/user/{user_id}")

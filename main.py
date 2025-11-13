@@ -15,7 +15,7 @@ base_url = os.getenv("REMNAWAVE_BASE_URL")
 token = os.getenv("REMNAWAVE_TOKEN")
 
 app = FastAPI()
-remnawave = RemnawaveSDK(base_url, token)
+remnawave = RemnawaveSDK(client=client, token=token)
 
 
 @app.get("/user/{user_id}")

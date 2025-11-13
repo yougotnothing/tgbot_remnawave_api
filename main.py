@@ -10,7 +10,7 @@ from remnawave.models.users import (
 
 app = FastAPI()
 client = httpx.AsyncClient(
-    base_url=os.getenv("REMNAWAVE_BASE_URL"),
+    base_url=os.getenv("REMNAWAVE_BASE_URL") or "",
     headers={"Authorization": f"Bearer {os.getenv('REMNAWAVE_TOKEN')}"},
 )
 remnawave = RemnawaveSDK(client=client)

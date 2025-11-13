@@ -1,16 +1,17 @@
 import os
-from remnawave import RemnawaveSDK
+
 from fastapi import FastAPI
+from remnawave import RemnawaveSDK
 from remnawave.models.users import (
     CreateUserRequestDto,
     UpdateUserRequestDto,
 )
 
+base_url = os.getenv("REMNAWAVE_BASE_URL")
+token = os.getenv("REMNAWAVE_TOKEN")
 
 app = FastAPI()
-remnawave = RemnawaveSDK(
-    base_url=os.getenv("REMNAWAVE_BASE_URL"), token=os.getenv("REMNAWAVE_TOKEN")
-)
+remnawave = RemnawaveSDK(base_url, token)
 
 
 @app.get("/user/{user_id}")

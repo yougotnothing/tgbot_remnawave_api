@@ -33,7 +33,8 @@ async def update_user(user_id: str, data: UpdateUserRequestDto):
     user = await remnawave.users.get_user_by_username(user_id)
 
     if user is UserResponseDto:
-        return await remnawave.users.update_user(uuid=user.uuid, *data)
+        result = await remnawave.users.update_user(user.uuid, *data)
+        return {"data": result}
 
 
 @app.delete("/user/{user_id}")

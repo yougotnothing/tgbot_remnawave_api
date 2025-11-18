@@ -3,6 +3,7 @@ import os
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from remnawave import RemnawaveSDK
+from remnawave.models.subscription import UserResponseDto
 from remnawave.models.users import (
     CreateUserRequestDto,
     UpdateUserRequestDto,
@@ -30,10 +31,14 @@ async def create_user(data: CreateUserRequestDto):
 @app.patch("/user/{user_id}")
 async def update_user(user_id: str, data: UpdateUserRequestDto):
     user = await remnawave.users.get_user_by_username(user_id)
-    return await remnawave.users.update_user(uuid=user.uuid, *data)
+
+    if user is UserResponseDto:
+        return await remnawave.users.update_user(uuid=user.uuid, *data)
 
 
 @app.delete("/user/{user_id}")
 async def delete_user(user_id: str):
     user = await remnawave.users.get_user_by_username(user_id)
-    return await remnawave.users.delete_user(user.uuid)
+
+    if user is UserResponseDto:
+        return await remnawave.users.delete_user(user.uuid)

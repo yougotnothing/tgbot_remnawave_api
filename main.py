@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 
 from dotenv import load_dotenv
 from fastapi import FastAPI
@@ -31,10 +32,15 @@ async def create_user(data: CreateUserRequestDto):
 @app.patch("/user/{user_id}")
 async def update_user(user_id: str, data: UpdateUserRequestDto):
     user = await remnawave.users.get_user_by_username(user_id)
+    dicted_data = data.model_dump()
 
     if user is UserResponseDto:
         result = await remnawave.users.update_user(
-            body=UpdateUserRequestDto(uuid=user.uuid, **data.model_dump())
+            body=UpdateUserRequestDto(
+                uuid=user.uuid,
+                expire_at=datetime.fromisoformat(dicted_data["expire_at"]),
+                **dicted_data,
+            )
         )
         return {"data": result}
 

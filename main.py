@@ -34,13 +34,11 @@ async def update_user(user_id: str, data: UpdateUserRequestDto):
     user = await remnawave.users.get_user_by_username(user_id)
     dicted_data = data.model_dump()
 
+    expire_at = datetime.fromisoformat(dicted_data["expire_at"])
+
     if user is UserResponseDto:
         result = await remnawave.users.update_user(
-            body=UpdateUserRequestDto(
-                uuid=user.uuid,
-                expire_at=datetime.fromisoformat(dicted_data["expire_at"]),
-                **dicted_data,
-            )
+            body=UpdateUserRequestDto(expire_at=expire_at, **dicted_data)
         )
         return {"data": result}
 
